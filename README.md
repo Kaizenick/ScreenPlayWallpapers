@@ -2,21 +2,7 @@
 Automatically turn movie scripts into stunning, daily‑changing wallpapers.  
 Supports **multiple monitors**, **macOS automation**, **virtual environments**, and **multiple screenplay URLs**.
 
----
-
-# 📖 Table of Contents
-1. [Overview](#overview)  
-2. [Features](#features)  
-3. [Requirements](#requirements)  
-4. [Installation (From Scratch)](#installation-from-scratch)  
-5. [How the Script Works](#how-the-script-works)  
-6. [Running the Script Manually](#running-the-script-manually)  
-7. [Setting Up Daily Automation (macOS Service)](#setting-up-daily-automation-macos-service)  
-8. [Checking Service Status](#checking-service-status)  
-9. [Customizing the Wallpapers](#customizing-the-wallpapers)  
-10. [Adding More Movies](#adding-more-movies)  
-11. [Troubleshooting](#troubleshooting)  
-12. [Future Enhancements](#future-enhancements)  
+<img width="1921" height="1077" alt="image" src="https://github.com/user-attachments/assets/bf808f12-b486-4f06-a3e4-89be26b3cd4f" />
 
 ---
 
@@ -34,6 +20,7 @@ It preserves:
 …resulting in a clean, beautiful, readable wallpaper designed for creative people and film lovers.
 
 ---
+# 📌 macOS ONLY — requires System Events + LaunchAgents
 
 # ✨ Features
 
@@ -48,7 +35,6 @@ It preserves:
 ✔ Black + “screenplay gold” color theme  
 ✔ Fully customizable resolution, colors, layout  
 
----
 
 # 🧰 Requirements
 
@@ -56,60 +42,27 @@ It preserves:
 - Python 3.9+ installed
 - Command Line Tools installed (`xcode-select --install`)
 - Virtual environment (venv)
-
+  
 ---
-
 # 🛠 Installation (From Scratch)
-
-Follow these steps exactly:
-
----
-
-## **1. Create the project folder**
-
+## 📥 1. Clone the Repository
 ```bash
-mkdir -p ~/MyStuff/ScreenPlayWallpapers
-cd ~/MyStuff/ScreenPlayWallpapers
+git clone https://github.com/Kaizenick/ScreenPlayWallpapers
+cd ScreenPlayWallpapers
 ```
 
----
-
-## **2. Create a virtual environment**
-
+## 🛠 2. Install Dependencies (Virtual Environment Recommended)
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-```
-
-Your terminal prompt should now show `(venv)`.
-
----
-
-## **3. Install required Python libraries**
-
-```bash
 pip install requests beautifulsoup4 pillow
 ```
 
----
-
-## **4. Add the script**
-
-Create this file:
-
-```
-~/MyStuff/ScreenPlayWallpapers/screenplay_wallpaper.py
-```
-
-Paste your Python script inside (the one you already have working).
-
----
-
-## **5. Test the script manually**
-
+## 🧪 3. Run the Script Manually
 ```bash
 python3 screenplay_wallpaper.py --url https://www.dailyscript.com/scripts/pulp_fiction.html
 ```
+---
 
 If everything is correct:
 
