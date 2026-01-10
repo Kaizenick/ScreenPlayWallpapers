@@ -16,7 +16,7 @@ WIDTH, HEIGHT = 1920, 1080         # your monitor resolution
 MARGIN_X = 140                     # left margin for text column
 MARGIN_TOP_BOTTOM = 80             # top/bottom margin
 FONT_SIZE = 28                     # tweak if you want bigger/smaller text
-DEFAULT_WORDS_PER_PAGE = 900       # approx words per wallpaper
+DEFAULT_WORDS_PER_PAGE = 300       # approx words per wallpaper
 
 # base directory = folder where this script lives
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -66,6 +66,26 @@ def download_and_store_script(script_url: str, slug: str) -> str:
     script_txt.write_text(cleaned, encoding="utf-8")
     return cleaned
 
+def compute_max_lines_fit(font):
+    """Given the current font and screen size, compute how many lines fit on one page."""
+    bbox = font.getbbox("A")
+    line_height = (bbox[3] - bbox[1]) + 8  # same +8 padding you use in render
+    max_lines_fit = (HEIGHT - 2 * MARGIN_TOP_BOTTOM) // line_height
+    return max_lines_fit, line_height
+
+
+def chunk_into_pages_by_lines(text: str, max_lines_fit: int):
+    """
+    Split the script strictly by line count, so that NO lines are ever skipped.
+    Each page gets at most max_lines_fit lines.
+    """
+    lines = text.splitlines()
+    pages = []
+
+    for i in range(0, len(lines), max_lines_fit):
+        pages.append("\n".join(lines[i:i + max_lines_fit]))
+
+    return pages
 
 def load_script_text(script_url: str, slug: str) -> str:
     """Load cached <slug>.txt if present, otherwise download and cache it."""
@@ -167,10 +187,13 @@ def ensure_wallpapers(script_url: str, slug: str, words_per_page: int):
         return existing
 
     full_text = load_script_text(script_url, slug)
-    pages = chunk_into_pages_by_words_and_lines(full_text, words_per_page)
-    print(f"Split into {len(pages)} pages of ~{words_per_page} words each.")
 
+    # NEW: paginate by how many lines actually fit on the screen
     font = get_font()
+    max_lines_fit, _ = compute_max_lines_fit(font)
+    pages = chunk_into_pages_by_lines(full_text, max_lines_fit)
+    print(f"Split into {len(pages)} pages, {max_lines_fit} lines per page (no skipping).")
+
     image_paths = []
     for idx, page_text in enumerate(pages, start=1):
         out_path = output_dir / f"page_{idx:03d}.png"
